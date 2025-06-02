@@ -1,0 +1,55 @@
+body{
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #f7f8fa;
+}
+
+.app-container{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header{
+    background-color: #4a90e2;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.main-content{
+    flex: 1;
+    padding: 20px;
+}
+
+.sidebar{
+    width: 1000px;
+    background-color: #f0f0f0;
+    padding: 1px;
+
+}
+
+.sidebar ul{
+    list-style-type: none;
+    padding: 0;
+}
+.sidebar li{
+    margin: 0.5rem 0;
+}
+
+.page-view{
+    flex: 1;
+    padding: 2rem;
+    background-color: #fff;
+    overflow-y: auto;
+}
+
+.nav a{
+    text-decoration: none;
+    color: #333;
+}
+
+nav a.active{
+    font-weight: bold;
+    color: #007BFF;
+}
