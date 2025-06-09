@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react';
+import EvolutionChart from '../features/EvolutionChart';
+import { oSContext } from '../context/Context';
+
 
 const Evolution = () => {
+  const {challenges } = useContext(oSContext)
   return (
-    <div className='evolution'>
-        <h2>Your Evolution Journey</h2>
-        <p>Track your progress and see how far you've come.</p>
-        <p>Here you can view your achievements, milestones, and overall growth.</p>
-        <p>Stay motivated and keep pushing towards your goals!</p>
-      
+    <div>
+      <h2>Evolution Overview</h2>
+      <EvolutionChart challenges={challenges} />
     </div>
-  )
-}
+  );
+};
 
-export default Evolution
+export default Evolution;
