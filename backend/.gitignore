@@ -14,7 +14,7 @@ __pycache__/
 *.sql
 
 # Local development environment variables
-.env
+*.env
 
 # Logs
 *.log
@@ -33,6 +33,7 @@ coverage.xml
 .pytest_cache/
 
 # Virtual environments
+.env
 env/
 venv/
 ENV/
