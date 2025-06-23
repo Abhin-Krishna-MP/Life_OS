@@ -65,7 +65,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vite dev server
-    "https://life-os-n061.onrender.com"
+    "https://life-os-1.onrender.com"
 ]
 
 
