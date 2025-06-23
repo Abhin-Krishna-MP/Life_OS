@@ -17,8 +17,13 @@ from .serializers import ChallengeSerializer, JournalEntrySerializer, UserProfil
 
 @api_view(['POST'])
 def run_migrations(request):
-    call_command('migrate')
-    return Response({'message': 'Migrations applied'})
+    print("💥 Migration endpoint hit")
+    try:
+        call_command('migrate')
+        return Response({'message': 'Migrations applied'})
+    except Exception as e:
+        print(f"Migration error: {str(e)}")
+        return Response({'error': str(e)}, status=500)
 
 @api_view(['POST'])
 def create_super_user(request):
