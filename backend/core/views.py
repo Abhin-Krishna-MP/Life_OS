@@ -18,8 +18,10 @@ from .serializers import ChallengeSerializer, JournalEntrySerializer, UserProfil
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):
+    print("DEBUG BODY:", request.data)
     username = request.data.get('username')
     password = request.data.get('password')
+
 
     if not username or not password:
             return Response({'error':'Username and Password required'}, status=400)
