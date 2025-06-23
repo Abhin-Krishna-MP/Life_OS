@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.core.management import call_command
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -13,6 +14,23 @@ from .serializers import ChallengeSerializer, JournalEntrySerializer, UserProfil
 
 
 # Create your views here.
+
+@api_view(['POST'])
+def run_migrations(request):
+    call_command('migrate')
+    return Response({'message': 'Migrations applied'})
+
+@api_view(['POST'])
+def create_super_user(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    if User.objects.filter(username=username).exists():
+        return Response({'error': 'User already exists'})
+    
+    User.objects.create_superuser(username=username, password=password)
+    return Response({'message': 'Superuser created'})
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):
