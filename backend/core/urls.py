@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ChallengeViewSet, JournalViewSet, UserProfileViewSet, mark_streak_day, get_user_profile,run_migrations,create_super_user
+from .views import ChallengeViewSet, JournalViewSet, UserProfileViewSet, mark_streak_day, get_user_profile
 
 router = DefaultRouter()
 
