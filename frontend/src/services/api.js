@@ -1,0 +1,100 @@
+import axios from 'axios'
+
+const api = axios.create({
+    baseURL: 'http://localhost:8000/api/'
+})
+
+api.interceptors.request.use((config) => {
+  const publicRoutes = ['register', 'token'];
+
+  if (!publicRoutes.some(path => config.url.includes(path))) {
+    const token = localStorage.getItem('access');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+
+  return config;
+});
+
+async function refreshToken() {
+  const refresh = localStorage.getItem('refresh');
+  if (!refresh) return null;
+
+  try {
+    const res = await axios.post('http://localhost:8000/api/token/refresh/', { refresh });
+    const newAccess = res.data.access;
+    localStorage.setItem('access', newAccess);
+    return newAccess;
+  } catch (err) {
+    console.error('Token refresh failed', err);
+    return null;
+  }
+}
+
+// ⛔️ Auto logout if refresh fails
+api.interceptors.response.use(
+  (res) => res,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      localStorage.getItem('refresh')
+    ) {
+      originalRequest._retry = true;
+      const newToken = await refreshToken();
+
+      if (newToken) {
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        return api(originalRequest); // Retry with new token
+      } else {
+        // Refresh token failed → logout
+        localStorage.removeItem('access');
+        localStorage.removeItem('refresh');
+        window.location.href = '/';
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  res => res,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // 🔁 Refresh token logic
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      localStorage.getItem('refresh')
+    ) {
+      originalRequest._retry = true;
+      const newToken = await refreshToken();
+
+      if (newToken) {
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        return api(originalRequest);
+      } else {
+        localStorage.removeItem('access');
+        localStorage.removeItem('refresh');
+        window.location.href = '/';
+      }
+    }
+
+    // 🚨 Server error (500) → redirect to error page
+    if (error.response?.status === 500) {
+      window.location.href = '/server-error';
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+
+
+
+export default api;
