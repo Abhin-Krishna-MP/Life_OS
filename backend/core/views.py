@@ -15,7 +15,7 @@ from .serializers import ChallengeSerializer, JournalEntrySerializer, UserProfil
 
 # Create your views here.
 
-@api_view(['POST'])
+@api_view('GET',['POST'])
 def run_migrations(request):
     print("💥 Migration endpoint hit")
     try:
