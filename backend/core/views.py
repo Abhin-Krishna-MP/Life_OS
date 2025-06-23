@@ -15,27 +15,6 @@ from .serializers import ChallengeSerializer, JournalEntrySerializer, UserProfil
 
 # Create your views here.
 
-@api_view(['GET','POST'])
-def run_migrations(request):
-    print("💥 Migration endpoint hit")
-    try:
-        call_command('migrate')
-        return Response({'message': 'Migrations applied'})
-    except Exception as e:
-        print(f"Migration error: {str(e)}")
-        return Response({'error': str(e)}, status=500)
-
-@api_view(['POST'])
-def create_super_user(request):
-    username = request.data.get('username')
-    password = request.data.get('password')
-
-    if User.objects.filter(username=username).exists():
-        return Response({'error': 'User already exists'})
-    
-    User.objects.create_superuser(username=username, password=password)
-    return Response({'message': 'Superuser created'})
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):

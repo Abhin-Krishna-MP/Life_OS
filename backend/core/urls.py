@@ -9,8 +9,6 @@ router.register(r'logs', JournalViewSet)
 router.register(r'profiles', UserProfileViewSet)
 
 urlpatterns = [
-    path('run-migrations/', run_migrations),
-    path('create-superuser/', create_super_user),
     path('', include(router.urls)),
     path('profile/', get_user_profile),
     path('challenges/<int:challenge_id>/mark-day/', mark_streak_day),
