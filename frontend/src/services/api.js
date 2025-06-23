@@ -32,7 +32,7 @@ async function refreshToken() {
   }
 }
 
-// Unified response interceptor (includes refresh + 500 redirect)
+// Unified response interceptor without 500 redirect
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
@@ -57,9 +57,9 @@ api.interceptors.response.use(
       }
     }
 
-    // 🚨 Redirect to error page (only if not already on it)
-    if (error.response?.status >= 500 && window.location.pathname !== '/server-error') {
-      window.location.href = '/server-error';
+    // Optional: Log server errors without redirecting
+    if (error.response?.status >= 500) {
+      console.error('Server error:', error.response.statusText);
     }
 
     return Promise.reject(error);
