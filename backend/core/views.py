@@ -14,6 +14,14 @@ from .serializers import ChallengeSerializer, JournalEntrySerializer, UserProfil
 
 
 # Create your views here.
+@api_view(['POST'])
+def run_migrations(request):
+    try:
+        call_command('makemigrations', 'core')  # Optional, only needed if you changed models
+        call_command('migrate')
+        return Response({'message': 'Migrations applied successfully'})
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
