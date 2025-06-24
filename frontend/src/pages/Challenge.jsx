@@ -7,12 +7,13 @@ import api from '../services/api'
 
 const Challenge = () => {
   
-  const {challenges, setChallenges} = useContext(oSContext)
+  const {challenges, setChallenges, fetchChallenges} = useContext(oSContext)
 
   const handleSaveChallenge = async (challenge) => {
     setChallenges([...challenges,{ ...challenge, id: challenges.length + 1}]);
     try {
       const res = await api.post('challenges/',challenge)
+      await fetchChallenges()
       console.log('Challenge saved:', challenge);
     } catch (error) {
       console.error('Failed to add challenge', err)
