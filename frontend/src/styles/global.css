@@ -152,6 +152,7 @@ body {
     transition: box-shadow 0.2s ease-in-out;
     cursor: pointer;
     background: #fff;
+    overflow: visible;
 }
 
 .challenge-card:hover {
@@ -667,6 +668,19 @@ body {
 .not-found-page {
   text-align: center;
   padding: 5rem;
+}
+.delete-icon {
+  margin-left: 95%;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 10; /* make sure it's high */
+  color: #888;
+}
+
+.delete-icon:hover {
+  color: red;
 }
 
 
